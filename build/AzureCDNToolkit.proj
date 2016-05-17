@@ -77,6 +77,7 @@
     <BuildNuGetDir>$(BuildDir)\_nuget</BuildNuGetDir>
     <ArtifactsDir>$(RootDir)\artifacts</ArtifactsDir>
     <CoreProjectDir>$(RootDir)\src\Our.Umbraco.AzureCDNToolkit</CoreProjectDir>
+    <TestsProjectDir>$(RootDir)\tests\Our.Umbraco.AzureCDNToolkit.Tests</TestsProjectDir>
   </PropertyGroup>
 
   <!-- TARGETS -->
@@ -107,6 +108,7 @@
   <!-- COMPILE -->
   <Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
     <MSBuild Projects="$(CoreProjectDir)\Our.Umbraco.AzureCDNToolkit.csproj" Properties="Configuration=$(BuildConfig)" />
+    <MSBuild Projects="$(TestsProjectDir)\Our.Umbraco.AzureCDNToolkit.Tests.csproj" Properties="Configuration=$(BuildConfig)" />
   </Target>
 
   <!-- PREPARE FILES -->
