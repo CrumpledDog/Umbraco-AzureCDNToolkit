@@ -1,0 +1,20 @@
+﻿div.imagepathcachedash .table-striped tbody>tr:nth-child(odd)>td, div.imagepathcachedash>table-striped tbody>tr:nth-child(odd)>th {
+    background-color: #f9f9f9;
+}
+
+div.imagepathcachedash .table tbody tr.warning>td {
+    background-color: #fcf8e3;
+}
+
+div.imagepathcachedash .table tbody tr.success>td {
+    background-color: #dff0d8;
+}
+
+div.imagepathcachedash .table tbody tr.error>td {
+    background-color: #f2dede;
+}
+
+
+div.imagepathcachedash td {
+    word-break: break-all;
+}
