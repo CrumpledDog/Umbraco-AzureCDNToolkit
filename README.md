@@ -1,0 +1,2 @@
+# Umbraco Azure CDN Toolkit
+
