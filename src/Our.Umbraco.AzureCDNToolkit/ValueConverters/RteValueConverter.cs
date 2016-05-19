@@ -29,7 +29,13 @@
             source,
             preview);
 
-            var doc = new HtmlDocument();
+            // If toolkit is disabled then return base conversion
+            if (!AzureCdnToolkit.Instance.UseAzureCdnToolkit)
+            {
+                return coreConversion;
+            }
+
+                var doc = new HtmlDocument();
             doc.LoadHtml(coreConversion.ToString());
 
             if (!doc.ParseErrors.Any() && doc.DocumentNode != null)
