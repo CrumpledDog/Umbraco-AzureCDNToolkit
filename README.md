@@ -6,8 +6,6 @@ The AzureCDNToolkit package allows you to fully utilise and integrate the Azure 
 - Images managed by Umbraco - cropped or not
 - Files - pdfs, docx etc
 
-The toolkit also ensures that the urls of images and assets are absolute to the CDN therefore avoiding your site needs to handle any 301 redirects.
-
 The toolkit depends on two packages being installed, these are the [UmbracoFileSystemProviders.Azure](https://github.com/JimBobSquarePants/UmbracoFileSystemProviders.Azure) and the [ImageProcessor.Web Azure Blob Cache plugin](http://imageprocessor.org/imageprocessor-web/plugins/azure-blob-cache/)
 
 Once installed and setup the package provides UrlHelper methods to use for resolving url paths for assets and Image Cropper urls and also a value converter for the TinyMce editor so that images within the content are also resolved.
@@ -20,7 +18,7 @@ Some examples:
     
 	<div class="brand" style="background-image: url('@Url.ResolveCdn(home.GetPropertyValue<string>("siteLogo") + "?height=65&width=205&bgcolor=000", false, false)')"></div>
 
-When using these methods, the toolkit will attempt to resolve the urls to their **absolute** paths and **crucially** ensures that a cache busting querystring variable is added. Without the cache busting using the Azure CDN can become tricky when you want to update with new content.
+When using these methods, the toolkit will attempt to resolve the urls to their **absolute** paths and **crucially** ensures that a cache busting querystring variable is added. Without the cache busting using the Azure CDN can become tricky when you want to update with new content. This has the added benefit of avoiding your site needing to handle any 301 redirects and also gets some optimisation benefit (PageSpeed etc).
 
 Some examples:
 
