@@ -40,6 +40,7 @@ Becomes:
 2. [Umbraco Setup](docs/Umbraco-Setup.md)
 3. [Umbraco Implementation](docs/Umbraco-Implementation.md)
 4. [Umbraco Dashboard](docs/Umbraco-Dashboard.md)
+5. [Reference](docs/Reference.md)
 
 ## Installation ##
 

@@ -97,11 +97,11 @@ The `UseAzureCdnToolkit` turns CDN Toolkit on or off, generally when developing 
 
 The `Domain` key has to be set the url of the website being served from Umbraco. This url must be resolvable by the server itself, so watch out for servers that don't have dns loopback. If load balancing it doesn't matter if this url resolves from one server to another.
 
-    <add key="AzureCDNToolkit:Domain" value="http://localhost:58106" />
+    <add key="AzureCDNToolkit:Domain" value="http://[www.myumbracowebsite.com]" />
 
 The `CdnUrl` set to the name of your CDN endpoint from [Step 5 of the Azure Setup](Azure-Setup.md).
 
-    <add key="AzureCDNToolkit:CdnUrl" value="https://azurecdntoolkitdemo.azureedge.net" />
+    <add key="AzureCDNToolkit:CdnUrl" value="https://[azurecdntoolkit].azureedge.net" />
 
 The `CdnPackageVersion` is used to cache bust assets on your CDN
 
@@ -115,8 +115,19 @@ The `MediaContainer` allows a different name for your media container if you wis
 
     <add key="AzureCDNToolkit:MediaContainer" value="media" />
 
-## 5. Upload assets to the "assets" container
+## 5. Upload assets to the "assets" container ##
 
 Upload your static assets to the container created in [Step 7 of the Azure Setup](Azure-Setup.md).
 
 ![Upload assets](images/upload-assets.png)
+
+## 6. Check everything works ##
+
+Before proceeding to [implementing](Umbraco-Implementation.md) the AzureCDNToolkit it's worth checking that the installed packages are working correctly and Azure is setup and ready. 
+
+Checklist:
+
+- Check images load on the front end and in the Umbraco media section in a cropper
+- Check file media downloads ok
+
+If you get 404 errors on the front end, it's likely that your CDN endpoint hasn't had long enough to setup.
