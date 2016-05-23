@@ -71,7 +71,7 @@ In the AzureBlobCache section you need to update the following keys:
 
 1. CachedStorageAccount set to the key and account name from [Step 2 of the Azure Setup](Azure-Setup.md).
 2. CachedBlobContainer change this if you want to (e.g. cloudcache), it will be included in the path of cropped images.
-3. CachedCDNRoot set to name of your CDN endpoint from [Step 5 of the Azure Setup](Azure-Setup.md).
+3. CachedCDNRoot set to the name of your CDN endpoint from [Step 5 of the Azure Setup](Azure-Setup.md).
 
 Now change:
 
@@ -88,6 +88,32 @@ This will enable ImageProcessor.Web to store it's cache files in your storage ac
 NuGet Package:
 
     Install-Package Our.Umbraco.AzureCDNToolkit
+
+Once installed you will find 6 new keys in web.config
+
+The `UseAzureCdnToolkit` turns CDN Toolkit on or off, generally when developing on a local machine you will want this set to false so you can easily update assets but set to true on stage/live servers. This setting doesn't have any effect on enabling disabling the dependant packages.
+
+    <add key="AzureCDNToolkit:UseAzureCdnToolkit" value="true" />
+
+The `Domain` key has to be set the url of the website being served from Umbraco. This url must be resolvable by the server itself, so watch out for servers that don't have dns loopback. If load balancing it doesn't matter if this url resolves from one server to another.
+
+    <add key="AzureCDNToolkit:Domain" value="http://localhost:58106" />
+
+The `CdnUrl` set to the name of your CDN endpoint from [Step 5 of the Azure Setup](Azure-Setup.md).
+
+    <add key="AzureCDNToolkit:CdnUrl" value="https://azurecdntoolkitdemo.azureedge.net" />
+
+The `CdnPackageVersion` is used to cache bust assets on your CDN
+
+    <add key="AzureCDNToolkit:CdnPackageVersion" value="0.0.1" />
+
+The `AssetsContainer` allows a different name for your assets container if you wish to (e.g. you may have multiple sites in the same account)
+
+    <add key="AzureCDNToolkit:AssetsContainer" value="assets" />
+
+The `MediaContainer` allows a different name for your media container if you wish to (e.g. you may have multiple sites in the same account)
+
+    <add key="AzureCDNToolkit:MediaContainer" value="media" />
 
 ## 5. Upload assets to the "assets" container
 
