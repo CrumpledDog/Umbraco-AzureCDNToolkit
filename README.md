@@ -38,6 +38,8 @@ Becomes:
 
 1. [Azure Setup](docs/Azure-Setup.md)
 2. [Umbraco Setup](docs/Umbraco-Setup.md)
+3. [Umbraco Implementation](docs/Umbraco-Implementation.md)
+4. [Umbraco Dashboard](docs/Umbraco-Dashboard.md)
 
 ## Installation ##
 
