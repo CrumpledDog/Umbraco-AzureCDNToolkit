@@ -28,6 +28,8 @@ If you turn off the toolkit in web.config it should render as it would if you ha
 
 Internally cache busting has been added, you can view this in the [dashboard](Umbraco-Dashboard.md).
 
+The toolkit also adds a UrlHelper `GetCropCdnUrl` method with a first parameter of type `ImageCropDataSet` for use with your own strongly typed models or mappers such as Ditto. See the [reference documentation](Reference.md) for more info
+
 ## 2. Static assets ##
 
 Where you would normally reference css, js or static images you can now use a UrlHelper method called `ResolveCdn`.
