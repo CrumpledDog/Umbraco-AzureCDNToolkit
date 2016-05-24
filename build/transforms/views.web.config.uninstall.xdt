@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
+  <system.web.webPages.razor>
+    <pages pageBaseType="System.Web.Mvc.WebViewPage">
+      <namespaces>
+        <add namespace="Our.Umbraco.AzureCDNToolkit" xdt:Locator="Match(namespace)" xdt:Transform="Remove"/>
+      </namespaces>
+    </pages>
+  </system.web.webPages.razor>
+
+</configuration>

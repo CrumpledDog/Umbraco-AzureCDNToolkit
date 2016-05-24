@@ -78,6 +78,8 @@
     <ArtifactsDir>$(RootDir)\artifacts</ArtifactsDir>
     <CoreProjectDir>$(RootDir)\src\Our.Umbraco.AzureCDNToolkit</CoreProjectDir>
     <TestsProjectDir>$(RootDir)\tests\Our.Umbraco.AzureCDNToolkit.Tests</TestsProjectDir>
+    <InstallerProjectDir>$(RootDir)\src\Our.Umbraco.AzureCDNToolkit.Installer</InstallerProjectDir>
+
   </PropertyGroup>
 
   <!-- TARGETS -->
@@ -109,6 +111,7 @@
   <Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
     <MSBuild Projects="$(CoreProjectDir)\Our.Umbraco.AzureCDNToolkit.csproj" Properties="Configuration=$(BuildConfig)" />
     <MSBuild Projects="$(TestsProjectDir)\Our.Umbraco.AzureCDNToolkit.Tests.csproj" Properties="Configuration=$(BuildConfig)" />
+    <MSBuild Projects="$(InstallerProjectDir)\Our.Umbraco.AzureCDNToolkit.Installer.csproj" Properties="Configuration=$(BuildConfig)" />
   </Target>
 
   <!-- PREPARE FILES -->
@@ -116,11 +119,16 @@
     <ItemGroup>
     <!-- Shared -->
     <BinFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.dll" />
+    <UmbracoOtherBinFiles Include="$(InstallerProjectDir)\bin\$(BuildConfig)\Microsoft.Web.XmlTransform.dll;$(InstallerProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.Installer.dll" />
     <PdbFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.pdb" />
     <AppPluginFiles Include="$(CoreProjectDir)\App_Plugins\AzureCDNToolkit\**\*.*" />
+
     <WebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.install.xdt" />
     <ViewsWebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.install.xdt" />
     <DashboardXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.install.xdt" />
+    <WebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.uninstall.xdt" />
+    <ViewsWebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.uninstall.xdt" />
+    <DashboardXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.uninstall.xdt" />
 
     <!-- Umbraco specific -->
     <PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
@@ -132,12 +140,15 @@
 
   <!-- Umbraco -->
   <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
+  <Copy SourceFiles="@(UmbracoOtherBinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
   <Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
   <Copy SourceFiles="@(AppPluginFiles)" DestinationFiles="@(AppPluginFiles->'$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\%(RecursiveDir)%(Filename)%(Extension)')" />
   <Copy SourceFiles="@(WebConfigXDTInstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
   <Copy SourceFiles="@(DashboardXDTInstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
   <Copy SourceFiles="@(ViewsWebConfigXDTInstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
-
+  <Copy SourceFiles="@(WebConfigXDTUninstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
+  <Copy SourceFiles="@(ViewsWebConfigXDTUninstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
+  <Copy SourceFiles="@(DashboardXDTUninstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
 
     <!--NuGet -->
   <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />

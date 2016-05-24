@@ -13,12 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{76969A1C
 		build\AzureCDNToolkit.proj = build\AzureCDNToolkit.proj
 		build-appveyor.cmd = build-appveyor.cmd
 		build.cmd = build.cmd
-		build\transforms\Dashboard.config.install.xdt = build\transforms\Dashboard.config.install.xdt
 		build\package.nuspec = build\package.nuspec
 		build\package.proj = build\package.proj
 		build\package.xml = build\package.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.AzureCDNToolkit.Installer", "src\Our.Umbraco.AzureCDNToolkit.Installer\Our.Umbraco.AzureCDNToolkit.Installer.csproj", "{2587066D-369E-45BD-9DFD-028920570F73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transforms", "Transforms", "{F7FA748D-43CA-44CC-9FE7-E94719EEA54C}"
+	ProjectSection(SolutionItems) = preProject
+		build\transforms\Dashboard.config.install.xdt = build\transforms\Dashboard.config.install.xdt
+		build\transforms\Dashboard.config.uninstall.xdt = build\transforms\Dashboard.config.uninstall.xdt
 		build\transforms\views.web.config.install.xdt = build\transforms\views.web.config.install.xdt
+		build\transforms\views.web.config.uninstall.xdt = build\transforms\views.web.config.uninstall.xdt
 		build\transforms\web.config.install.xdt = build\transforms\web.config.install.xdt
+		build\transforms\web.config.uninstall.xdt = build\transforms\web.config.uninstall.xdt
 	EndProjectSection
 EndProject
 Global
@@ -39,8 +48,15 @@ Global
 		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F7FA748D-43CA-44CC-9FE7-E94719EEA54C} = {76969A1C-1C43-44D3-AB23-8223A981A6B6}
 	EndGlobalSection
 EndGlobal
