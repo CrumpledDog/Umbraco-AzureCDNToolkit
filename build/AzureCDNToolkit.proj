@@ -29,6 +29,8 @@
   <!-- NUGET ONLY PROPERTIES -->
   <PropertyGroup>
     <PackageId>Our.Umbraco.AzureCDNToolkit</PackageId>
+    <CorePackageName>Our.Umbraco.AzureCDNToolkit.Core</CorePackageName>
+    <CorePackageId>Our.Umbraco.AzureCDNToolkit.Core</CorePackageId>
     <Copyright>Copyright &#169; Jeavon Leopold and contributors.</Copyright>
     <Owners>Jeavon Leopold</Owners>
     <Description>Azure CDN Toolkit for Umbraco</Description>
@@ -75,6 +77,7 @@
     <BuildDir>$(MSBuildProjectDirectory)\_temp</BuildDir>
     <BuildUmbDir>$(BuildDir)\_umbraco</BuildUmbDir>
     <BuildNuGetDir>$(BuildDir)\_nuget</BuildNuGetDir>
+    <BuildCoreNuGetDir>$(BuildDir)\_corenuget</BuildCoreNuGetDir>
     <ArtifactsDir>$(RootDir)\artifacts</ArtifactsDir>
     <CoreProjectDir>$(RootDir)\src\Our.Umbraco.AzureCDNToolkit</CoreProjectDir>
     <TestsProjectDir>$(RootDir)\tests\Our.Umbraco.AzureCDNToolkit.Tests</TestsProjectDir>
@@ -97,6 +100,7 @@
     <MakeDir Directories="$(BuildDir)" />
     <MakeDir Directories="$(BuildUmbDir)" />
     <MakeDir Directories="$(BuildNuGetDir)" />
+    <MakeDir Directories="$(BuildCoreNuGetDir)" />
     <MakeDir Directories="$(ArtifactsDir)" />
   </Target>
 
@@ -117,26 +121,27 @@
   <!-- PREPARE FILES -->
   <Target Name="PrepareFiles" DependsOnTargets="Compile">
     <ItemGroup>
-    <!-- Shared -->
-    <BinFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.dll" />
-    <UmbracoOtherBinFiles Include="$(InstallerProjectDir)\bin\$(BuildConfig)\Microsoft.Web.XmlTransform.dll;$(InstallerProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.Installer.dll" />
-    <PdbFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.pdb" />
-    <AppPluginFiles Include="$(CoreProjectDir)\App_Plugins\AzureCDNToolkit\**\*.*" />
+      <!-- Shared -->
+      <BinFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.dll" />
+      <PdbFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.pdb" />
+      <AppPluginFiles Include="$(CoreProjectDir)\App_Plugins\AzureCDNToolkit\**\*.*" />
 
-    <WebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.install.xdt" />
-    <ViewsWebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.install.xdt" />
-    <DashboardXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.install.xdt" />
-    <WebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.uninstall.xdt" />
-    <ViewsWebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.uninstall.xdt" />
-    <DashboardXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.uninstall.xdt" />
+      <WebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.install.xdt" />
+      <ViewsWebConfigXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.install.xdt" />
+      <DashboardXDTInstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.install.xdt" />
+      <WebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\web.config.uninstall.xdt" />
+      <ViewsWebConfigXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\views.web.config.uninstall.xdt" />
+      <DashboardXDTUninstallFile Include="$(MSBuildProjectDirectory)\transforms\Dashboard.config.uninstall.xdt" />
 
-    <!-- Umbraco specific -->
-    <PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
+      <!-- Umbraco specific -->
+      <PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
+      <UmbracoOtherBinFiles Include="$(InstallerProjectDir)\bin\$(BuildConfig)\Microsoft.Web.XmlTransform.dll;$(InstallerProjectDir)\bin\$(BuildConfig)\Our.Umbraco.AzureCDNToolkit.Installer.dll" />
 
-    <!-- NuGet specific -->
-    <SrcFiles Include="$(CoreProjectDir)\**\*.cs" Exclude="$(CoreProjectDir)\obj\**"/>
-    <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
-  </ItemGroup>
+      <!-- NuGet specific -->
+      <SrcFiles Include="$(CoreProjectDir)\**\*.cs" Exclude="$(CoreProjectDir)\obj\**"/>
+      <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
+      <CoreNuSpecFile Include="$(MSBuildProjectDirectory)\core-package.nuspec" />
+    </ItemGroup>
 
   <!-- Umbraco -->
   <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
@@ -151,13 +156,14 @@
   <Copy SourceFiles="@(DashboardXDTUninstallFile)" DestinationFolder="$(BuildUmbDir)\App_Plugins\AzureCDNToolkit\Install" />
 
     <!--NuGet -->
-  <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
-  <Copy SourceFiles="@(PdbFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
-  <Copy SourceFiles="@(SrcFiles)" DestinationFiles="@(SrcFiles->'$(BuildNuGetDir)\src\%(RecursiveDir)%(Filename)%(Extension)')" />
+  <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildCoreNuGetDir)\lib\net45" />
+  <Copy SourceFiles="@(PdbFiles)" DestinationFolder="$(BuildCoreNuGetDir)\lib\net45" />
+  <Copy SourceFiles="@(SrcFiles)" DestinationFiles="@(SrcFiles->'$(BuildCoreNuGetDir)\src\%(RecursiveDir)%(Filename)%(Extension)')" />
   <Copy SourceFiles="@(WebConfigXDTInstallFile)" DestinationFolder="$(BuildNuGetDir)\Content" />
   <Copy SourceFiles="@(ViewsWebConfigXDTInstallFile)" DestinationFiles="$(BuildNuGetDir)\Content\Views\web.config.install.xdt" />
   <Copy SourceFiles="@(DashboardXDTInstallFile)" DestinationFolder="$(BuildNuGetDir)\Content\Config" />
   <Copy SourceFiles="@(AppPluginFiles)" DestinationFiles="@(AppPluginFiles->'$(BuildNuGetDir)\Content\App_Plugins\AzureCDNToolkit\%(RecursiveDir)%(Filename)%(Extension)')" />
+  <Copy SourceFiles="@(CoreNuSpecFile)" DestinationFiles="$(BuildCoreNuGetDir)\package.nuspec" />
   <Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
 
   </Target>
@@ -208,8 +214,33 @@
       Files="@(ManifestFiles)" />
   </Target>
 
+  <Target Name="ManifestCoreNuGet" DependsOnTargets="PrepareFiles">
+    <ItemGroup>
+      <ManifestFiles Include="$(BuildCoreNuGetDir)\**\*" Exclude="$(BuildCoreNuGetDir)\package.nuspec" />
+    </ItemGroup>
+    <MSBuild.NuGet.Tasks.ManifestUpdate
+      ManifestFile="$(BuildCoreNuGetDir)\package.nuspec"
+      WorkingDirectory="$(BuildCoreNuGetDir)"
+      Title="$(CorePackageName)"
+      Description="$(Description)"
+      Summary="$(Readme)"
+      Version="$(ProductVersion)"
+      MinimumRequiredUmbracoVersion ="$(MinUmbracoVersion)"
+      Authors="$(AuthorName)"
+      Owners="$(Owners)"
+      Copyright="$(Copyright)"
+      LicenseUrl="$(PackageLicenseUrl)"
+      ProjectUrl="$(ProjectUrl)"
+      Id="$(CorePackageId)"
+      IconUrl="$(IconUrl)"
+      Language="$(Language)"
+      RequireLicenseAcceptance="$(RequireLicenseAcceptance)"
+      Tags="$(Tags)"
+      Files="@(ManifestFiles)" />
+  </Target>
+
   <!-- PACKAGE -->
-  <Target Name="Package" DependsOnTargets="ManifestUmbraco; ManifestNuGet">
+  <Target Name="Package" DependsOnTargets="ManifestUmbraco; ManifestNuGet; ManifestCoreNuGet">
     <ItemGroup>
       <PackageFiles Include="$(BuildUmbDir)\**\*.*" />
     </ItemGroup>
@@ -222,6 +253,13 @@
     <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\build\tools\NuGet.exe"
       ManifestFile="$(BuildNuGetDir)\package.nuspec"
       BasePath="$(BuildNuGetDir)"
+      Version="$(ProductVersion)"
+      OutputDirectory="$(ArtifactsDir)"
+      Symbols="true" />
+
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\build\tools\NuGet.exe"
+      ManifestFile="$(BuildCoreNuGetDir)\package.nuspec"
+      BasePath="$(BuildCoreNuGetDir)"
       Version="$(ProductVersion)"
       OutputDirectory="$(ArtifactsDir)"
       Symbols="true" />

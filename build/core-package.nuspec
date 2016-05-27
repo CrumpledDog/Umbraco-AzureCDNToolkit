@@ -16,9 +16,7 @@
     <language></language>
     <tags></tags>
     <dependencies>
-      <dependency id="Our.Umbraco.AzureCDNToolkit.Core" version="0.1.0-alpha-000015" />
-      <dependency id="UmbracoFileSystemProviders.Azure" version="0.5.2-beta" />
-      <dependency id="ImageProcessor.Web.Plugins.AzureBlobCache" version="1.0.8" />
+      <dependency id="UmbracoCms.Core" version="0.0.0" />
   </dependencies>
   </metadata>
 </package>
