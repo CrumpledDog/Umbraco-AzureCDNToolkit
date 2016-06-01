@@ -34,7 +34,7 @@
     <Copyright>Copyright &#169; Jeavon Leopold and contributors.</Copyright>
     <Owners>Jeavon Leopold</Owners>
     <Description>Azure CDN Toolkit for Umbraco</Description>
-    <IconUrl>https://raw.githubusercontent.com/CrumpledDog/Umbraco-AzureCDNToolkit/develop/build/assets/icon/umbraco-azure-toolkit-128.png</IconUrl>
+    <IconUrl>https://raw.githubusercontent.com/CrumpledDog/Umbraco-AzureCDNToolkit/master/build/assets/icon/umbraco-azure-toolkit-128.png</IconUrl>
     <Tags>umbraco azure cdn media</Tags>
     <Language>en-GB</Language>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
