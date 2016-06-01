@@ -1,0 +1,55 @@
+﻿<div ng-controller="AzureCDNToolKit.CacheController" class="imagepathcachedash">
+
+  <div class="row">
+    <h3>AzureCDNToolkit: Cached Image Path Status</h3>
+  </div>
+
+  <div class="row">
+    <div class="form-inline">
+      <label>
+        Server:
+        <select ng-model="selectedserver">
+          <option ng-repeat="server in servers">{{server}}</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" ng-disabled="!servers" ng-click="getAllCachedImagesForServer(selectedserver);"><i class="icon-binoculars"></i> Get All Cached Image Paths</button>
+      <button class="btn btn-danger" ng-disabled="!servers" ng-click="wipe(selectedserver);"><i class="icon-fire"></i> Wipe All Cached Image Paths</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th>WebUrl</th>
+        <th>CacheUrl</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-show="success && statuses.length == 0" class="warning">
+        <td colspan="3">No cached image paths found</td>
+      </tr>
+
+      <tr ng-show="waiting && statuses.length == 0" class="warning">
+        <td colspan="3">Please wait, it can take serveral minutes for servers to respond...</td>
+      </tr>
+
+      <tr ng-repeat="(key, image) in statuses" ng:class="rowClass(image)">
+        <td>{{ image.weburl }}</td>
+        <td>{{ image.cacheurl }}</td>
+        <td><button class="btn btn-danger" ng-click="wipe(selectedserver, image.weburl);"><i class="icon-fire"></i></button></td>
+      </tr>
+
+
+
+      </tbody>
+    </table>
+  </div>
+
+  </div>

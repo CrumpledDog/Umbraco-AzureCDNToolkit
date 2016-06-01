@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
+  <appSettings>
+    <add key="AzureCDNToolkit:UseAzureCdnToolkit" value="true" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:Domain" value="http://[mywebsitedomain.com]" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:CdnUrl" value="https://[mycdn].azureedge.net" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:CdnPackageVersion" value="0.0.1" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:AssetsContainer" value="assets" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:MediaContainer" value="media" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+  </appSettings>
+
+</configuration>

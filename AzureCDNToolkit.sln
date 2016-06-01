@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.AzureCDNToolkit", "src\Our.Umbraco.AzureCDNToolkit\Our.Umbraco.AzureCDNToolkit.csproj", "{0FD015D8-9060-4D5F-A722-E07B65A5EE35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.AzureCDNToolkit.Tests", "tests\Our.Umbraco.AzureCDNToolkit.Tests\Our.Umbraco.AzureCDNToolkit.Tests.csproj", "{B5F8514E-6D0F-42C6-86E0-3AA278F31506}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{76969A1C-1C43-44D3-AB23-8223A981A6B6}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		build\AzureCDNToolkit.proj = build\AzureCDNToolkit.proj
+		build-appveyor.cmd = build-appveyor.cmd
+		build.cmd = build.cmd
+		build\core-package.nuspec = build\core-package.nuspec
+		build\package.nuspec = build\package.nuspec
+		build\package.proj = build\package.proj
+		build\package.xml = build\package.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.AzureCDNToolkit.Installer", "src\Our.Umbraco.AzureCDNToolkit.Installer\Our.Umbraco.AzureCDNToolkit.Installer.csproj", "{2587066D-369E-45BD-9DFD-028920570F73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transforms", "Transforms", "{F7FA748D-43CA-44CC-9FE7-E94719EEA54C}"
+	ProjectSection(SolutionItems) = preProject
+		build\transforms\Dashboard.config.install.xdt = build\transforms\Dashboard.config.install.xdt
+		build\transforms\Dashboard.config.uninstall.xdt = build\transforms\Dashboard.config.uninstall.xdt
+		build\transforms\views.web.config.install.xdt = build\transforms\views.web.config.install.xdt
+		build\transforms\views.web.config.uninstall.xdt = build\transforms\views.web.config.uninstall.xdt
+		build\transforms\web.config.install.xdt = build\transforms\web.config.install.xdt
+		build\transforms\web.config.uninstall.xdt = build\transforms\web.config.uninstall.xdt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Config", "Solution Config", "{F48814BB-8B91-4C47-922A-BF280E401731}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Rebracer.xml = Rebracer.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8258CC24-C75A-4498-B1D9-EF4CA543706F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8258CC24-C75A-4498-B1D9-EF4CA543706F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8258CC24-C75A-4498-B1D9-EF4CA543706F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8258CC24-C75A-4498-B1D9-EF4CA543706F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD015D8-9060-4D5F-A722-E07B65A5EE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD015D8-9060-4D5F-A722-E07B65A5EE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD015D8-9060-4D5F-A722-E07B65A5EE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD015D8-9060-4D5F-A722-E07B65A5EE35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F8514E-6D0F-42C6-86E0-3AA278F31506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2587066D-369E-45BD-9DFD-028920570F73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F7FA748D-43CA-44CC-9FE7-E94719EEA54C} = {76969A1C-1C43-44D3-AB23-8223A981A6B6}
+	EndGlobalSection
+EndGlobal
