@@ -1,6 +1,6 @@
 # Umbraco Azure CDN Toolkit #
 
-![Azure Logger](https://raw.githubusercontent.com/CrumpledDog/Umbraco-AzureCDNToolkit/master/build/assets/icon/umbraco-azure-toolkit-256.png)
+![Azure Logger](build/assets/icon/umbraco-azure-toolkit-256.png)
 
 The AzureCDNToolkit package allows you to fully utilise and integrate the Azure CDN with your Umbraco powered website. There are three file types that should be served from CDN if you have one. 
 
@@ -51,7 +51,7 @@ Both NuGet and Umbraco packages are available.
 |NuGet Packages    |Version           |
 |:-----------------|:-----------------|
 |**Release**|[![NuGet download](http://img.shields.io/nuget/v/Our.Umbraco.AzureCDNToolkit.svg)](https://www.nuget.org/packages/Our.Umbraco.AzureCDNToolkit/)
-|**Pre-release**|[![MyGet download](https://img.shields.io/myget/umbraco-packages/vpre/Our.Umbraco.AzureCDNToolkit.svg)](https://www.myget.org/gallery/umbraco-packages)
+|**Pre-release**|[![MyGet download](https://img.shields.io/myget/umbraco-packages/vpre/Our.Umbraco.AzureCDNToolkit.svg)](https://www.myget.org/feed/umbraco-packages/package/nuget/Our.Umbraco.AzureCDNToolkit)
 
 |Umbraco Packages  |                  |
 |:-----------------|:-----------------|
