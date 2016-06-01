@@ -51,7 +51,7 @@ Both NuGet and Umbraco packages are available.
 |NuGet Packages    |Version           |
 |:-----------------|:-----------------|
 |**Release**|[![NuGet download](http://img.shields.io/nuget/v/Our.Umbraco.AzureCDNToolkit.svg)](https://www.nuget.org/packages/Our.Umbraco.AzureCDNToolkit/)
-|**Pre-release**|[![MyGet download](https://img.shields.io/myget/umbraco-packages/vpre/Our.Umbraco.AzureCDNToolkit.svg)](https://www.myget.org/gallery/umbraco-packages)
+|**Pre-release**|[![MyGet download](https://img.shields.io/myget/umbraco-packages/vpre/Our.Umbraco.AzureCDNToolkit.svg)](https://www.myget.org/feed/umbraco-packages/package/nuget/Our.Umbraco.AzureCDNToolkit)
 
 |Umbraco Packages  |                  |
 |:-----------------|:-----------------|
