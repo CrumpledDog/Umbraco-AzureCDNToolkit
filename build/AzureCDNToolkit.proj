@@ -34,6 +34,7 @@
     <Copyright>Copyright &#169; Jeavon Leopold and contributors.</Copyright>
     <Owners>Jeavon Leopold</Owners>
     <Description>Azure CDN Toolkit for Umbraco</Description>
+    <CoreDescription>Assemblies for the Azure CDN Toolkit for Umbraco</CoreDescription>
     <IconUrl>https://raw.githubusercontent.com/CrumpledDog/Umbraco-AzureCDNToolkit/master/build/assets/icon/umbraco-azure-toolkit-128.png</IconUrl>
     <Tags>umbraco azure cdn media</Tags>
     <Language>en-GB</Language>
@@ -222,7 +223,7 @@
       ManifestFile="$(BuildCoreNuGetDir)\package.nuspec"
       WorkingDirectory="$(BuildCoreNuGetDir)"
       Title="$(CorePackageName)"
-      Description="$(Description)"
+      Description="$(CoreDescription)"
       Summary="$(Readme)"
       Version="$(ProductVersion)"
       MinimumRequiredUmbracoVersion ="$(MinUmbracoVersion)"

@@ -1,7 +1,3 @@
-# Umbraco Azure CDN Toolkit #
-
-![Azure Logger](build/assets/icon/umbraco-azure-toolkit-256.png)
-
 The AzureCDNToolkit package allows you to fully utilise and integrate the Azure CDN with your Umbraco powered website. There are three file types that should be served from CDN if you have one. 
 
 - Assets - css, js & static images used by templates etc..
@@ -34,26 +30,10 @@ Becomes:
 2. `<img src="https://azurecdntoolkitdemo.azureedge.net/cloudcache/e/0/2/7/d/2/e027d2acab49ab523db3ece72c0651310dd3320c.jpg"/>`
 3. `<a href="https://azurecdntoolkitdemo.azureedge.net/assets/media/1050/blank.docx?rnd=131070387800000000">Download Word Doc</a>`
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7lj6r6uoofm9mb24?svg=true)](https://ci.appveyor.com/project/JeavonLeopold/umbraco-azurecdntoolkit)
-
 ## Documentation ##
 
-1. [Azure Setup](docs/Azure-Setup.md)
-2. [Umbraco Setup](docs/Umbraco-Setup.md)
-3. [Umbraco Implementation](docs/Umbraco-Implementation.md)
-4. [Umbraco Dashboard](docs/Umbraco-Dashboard.md)
-5. [Reference](docs/Reference.md)
-
-## Installation ##
-
-Both NuGet and Umbraco packages are available. 
-
-|NuGet Packages    |Version           |
-|:-----------------|:-----------------|
-|**Release**|[![NuGet download](http://img.shields.io/nuget/v/Our.Umbraco.AzureCDNToolkit.svg)](https://www.nuget.org/packages/Our.Umbraco.AzureCDNToolkit/)
-|**Pre-release**|[![MyGet download](https://img.shields.io/myget/umbraco-packages/vpre/Our.Umbraco.AzureCDNToolkit.svg)](https://www.myget.org/gallery/umbraco-packages)
-
-|Umbraco Packages  |                  |
-|:-----------------|:-----------------|
-|**Release**|[![Our Umbraco project page](https://img.shields.io/badge/our-umbraco-orange.svg)](https://our.umbraco.org/projects/developer-tools/azure-cdn-toolkit-for-umbraco/) 
-|**Pre-release**| [![AppVeyor Artifacts](https://img.shields.io/badge/appveyor-umbraco-orange.svg)](https://ci.appveyor.com/project/JeavonLeopold/umbraco-azurecdntoolkit/build/artifacts)
+1. [Azure Setup](https://github.com/CrumpledDog/Umbraco-AzureCDNToolkit/blob/develop/docs/Azure-Setup.md)
+2. [Umbraco Setup](https://github.com/CrumpledDog/Umbraco-AzureCDNToolkit/blob/develop/docs/Umbraco-Setup.md)
+3. [Umbraco Implementation](https://github.com/CrumpledDog/Umbraco-AzureCDNToolkit/blob/develop/docs/Umbraco-Implementation.md)
+4. [Umbraco Dashboard](https://github.com/CrumpledDog/Umbraco-AzureCDNToolkit/blob/develop/docs/Umbraco-Dashboard.md)
+5. [Reference](https://github.com/CrumpledDog/Umbraco-AzureCDNToolkit/blob/develop/docs/Reference.md)
