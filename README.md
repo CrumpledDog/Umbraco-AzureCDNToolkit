@@ -1,5 +1,7 @@
 # Umbraco Azure CDN Toolkit #
 
+![Azure Logger](build/assets/icon/umbraco-azure-toolkit-256.png)
+
 The AzureCDNToolkit package allows you to fully utilise and integrate the Azure CDN with your Umbraco powered website. There are three file types that should be served from CDN if you have one. 
 
 - Assets - css, js & static images used by templates etc..
