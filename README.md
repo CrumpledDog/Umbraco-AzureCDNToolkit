@@ -36,6 +36,8 @@ Becomes:
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7lj6r6uoofm9mb24?svg=true)](https://ci.appveyor.com/project/JeavonLeopold/umbraco-azurecdntoolkit)
 
+**Note**: this package is not compatible with [Slimsy](https://github.com/Jeavon/Slimsy) v1 (it should work with the upcoming Slimsy v2 using img srcset)
+
 ## Documentation ##
 
 1. [Azure Setup](docs/Azure-Setup.md)

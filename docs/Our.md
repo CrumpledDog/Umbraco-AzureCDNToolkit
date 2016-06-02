@@ -30,6 +30,8 @@ Becomes:
 2. `<img src="https://azurecdntoolkitdemo.azureedge.net/cloudcache/e/0/2/7/d/2/e027d2acab49ab523db3ece72c0651310dd3320c.jpg"/>`
 3. `<a href="https://azurecdntoolkitdemo.azureedge.net/assets/media/1050/blank.docx?rnd=131070387800000000">Download Word Doc</a>`
 
+**Note**: this package is not compatible with [Slimsy](https://our.umbraco.org/projects/website-utilities/slimsy/) v1 (it should work with the upcoming Slimsy v2 using img srcset)
+
 ## NuGet ##
 
 It is highly recommended that you install this package via NuGet:
