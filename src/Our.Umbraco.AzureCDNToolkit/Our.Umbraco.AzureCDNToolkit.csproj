@@ -275,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureCdnToolkit.cs" />
+    <Compile Include="Cache.cs" />
     <Compile Include="CacheRefreshers\CacheWiper.cs" />
     <Compile Include="CacheRefreshers\CacheRequester.cs" />
     <Compile Include="CacheRefreshers\CacheResponder.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Events\ServerVariableParser.cs" />
     <Compile Include="Events\UmbracoEvents.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="LocalCache.cs" />
     <Compile Include="Models\CachedImagesWipe.cs" />
     <Compile Include="Models\CachedImagesResponse.cs" />
     <Compile Include="Models\CachedImagesRequest.cs" />

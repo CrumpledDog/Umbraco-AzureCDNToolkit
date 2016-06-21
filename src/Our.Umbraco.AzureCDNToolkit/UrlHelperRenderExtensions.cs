@@ -13,7 +13,6 @@
     using global::Umbraco.Web.Models;
     using global::Umbraco.Core;
     using global::Umbraco.Web;
-    using global::Umbraco.Core.Cache;
     using global::Umbraco.Core.Logging;
 
     using Newtonsoft.Json;
@@ -235,8 +234,7 @@
 
             var absoluteCropPath = string.Format("{0}{1}", currentDomain, cropUrl);
 
-            var runtimeCache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
-            var cachedItem = runtimeCache.GetCacheItem<CachedImage>(cacheKey);
+            var cachedItem = Cache.GetCacheItem<CachedImage>(cacheKey);
 
             var fullUrlPath = string.Empty;
 
@@ -260,7 +258,7 @@
                             {
                                 newCachedImage.CacheUrl = response.ResponseUri.AbsoluteUri;
 
-                                runtimeCache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
+                                Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
                                 fullUrlPath = response.ResponseUri.AbsoluteUri;
                             }
                         }

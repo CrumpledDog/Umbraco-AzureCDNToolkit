@@ -6,8 +6,6 @@
     using System.Web.Http;
     using System.Collections.Generic;
 
-    using global::Umbraco.Core;
-    using global::Umbraco.Core.Cache;
     using global::Umbraco.Web.Cache;
 
     using global::Umbraco.Web.Mvc;
@@ -18,13 +16,13 @@
     using CacheRefreshers;
     using Models;
 
-    [PluginController("ImageProcessorExtensions")]
+    [PluginController("AzureCDNToolkit")]
     public class CacheApiController : UmbracoAuthorizedApiController
     {
         /// <summary>
         /// Sends a cache request message specifying a particular server retrun cache stats
         /// </summary>
-        /// ~/Umbraco/backoffice/ImageProcessorExtensions/CacheApi/SendCachedImagesRequest
+        /// ~/Umbraco/backoffice/AzureCDNToolkit/CacheApi/SendCachedImagesRequest
         [HttpPost]
         [global::Umbraco.Web.WebApi.UmbracoAuthorize]
         public Guid SendCachedImagesRequest(string serverIdentity)
@@ -47,18 +45,17 @@
         /// Gets all cache image urls
         /// </summary>
         /// <returns>object</returns>
-        /// ~/Umbraco/backoffice/ImageProcessorExtensions/CacheApi/GetAllCachedImagesFromRequest
+        /// ~/Umbraco/backoffice/AzureCDNToolkit/CacheApi/GetAllCachedImagesFromRequest
         [HttpPost]
         [global::Umbraco.Web.WebApi.UmbracoAuthorize]
         public IEnumerable<CachedImage> GetAllCachedImagesFromRequest(string requestId)
         {
-            var runtimeCache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
             var cacheKey = string.Format("{0}{1}", AzureCDNToolkit.Constants.Keys.CachePrefixResponse, requestId);
 
             // it can take time for servers to return the data so try 6 times waiting 10 seconds between each try
             for (int retry = 0;; retry++)
             {
-                var cachedResponse = runtimeCache.GetCacheItem<IEnumerable<CachedImage>>(cacheKey);
+                var cachedResponse = Cache.GetCacheItem<IEnumerable<CachedImage>>(cacheKey);
 
                 if (cachedResponse != null)
                 {
@@ -78,7 +75,7 @@
         /// <summary>
         /// Wipes the image cache urls
         /// </summary>
-        /// ~/Umbraco/backoffice/ImageProcessorExtensions/CacheApi/WipeAll
+        /// ~/Umbraco/backoffice/AzureCDNToolkit/CacheApi/WipeAll
         [HttpPost]
         [global::Umbraco.Web.WebApi.UmbracoAuthorize]
         public void Wipe(string serverIdentity, string webUrl = null)
@@ -97,7 +94,7 @@
         /// <summary>
         /// Gets a collection of all servers from the ServerRegistrationService
         /// </summary>
-        /// ~/Umbraco/backoffice/ImageProcessorExtensions/CacheApi/GetAllServers
+        /// ~/Umbraco/backoffice/AzureCDNToolkit/CacheApi/GetAllServers
         public string[] GetAllServers()
         {
             // will try for 5 times waiting 3 seconds to get a list of servers as they can take time to register mainly when developing locally

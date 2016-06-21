@@ -39,8 +39,7 @@
             {
                 // THIS SERVER SHOULD RETURN DATA VIA CacheImagesResponder
 
-                var runtimeCache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
-                var cachedItems = runtimeCache.GetCacheItemsByKeySearch<CachedImage>(AzureCDNToolkit.Constants.Keys.CachePrefix);
+                var cachedItems = Cache.GetCacheItemsByKeySearch<CachedImage>(AzureCDNToolkit.Constants.Keys.CachePrefix);
 
                 var response = new CachedImagesResponse()
                 {
@@ -63,9 +62,8 @@
             var rawPayLoad = (string)e.MessageObject;
             var payload = JsonConvert.DeserializeObject<CachedImagesResponse>(rawPayLoad);
 
-            var runtimeCache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
             var cacheKey = string.Format("{0}{1}", AzureCDNToolkit.Constants.Keys.CachePrefixResponse, payload.RequestId);
-            runtimeCache.InsertCacheItem<IEnumerable<CachedImage>>(cacheKey, () => payload.CachedImages);
+            Cache.InsertCacheItem<IEnumerable<CachedImage>>(cacheKey, () => payload.CachedImages);
         }
 
 
@@ -85,21 +83,20 @@
                     payload.ServerIdentity))
             {
                 // This server should wipe it's application cache
-                var runtimeCache = ApplicationContext.Current.ApplicationCache.RuntimeCache;
 
                 if (payload.WebUrl != null)
                 {
                     // wipe specific url
                     var cachePrefix = AzureCDNToolkit.Constants.Keys.CachePrefix;
                     var cacheKey = string.Format("{0}{1}", cachePrefix, payload.WebUrl);
-                    runtimeCache.ClearCacheItem(cacheKey);
+                    Cache.ClearCacheItem(cacheKey);
 
                     LogHelper.Info<CacheEvents>(string.Format("Azure CDN Toolkit: CDN image path runtime cache for key {0} cleared by dashboard control request", payload.WebUrl));
                 }
                 else
                 {
                     // clear all keys
-                    runtimeCache.ClearCacheByKeySearch(AzureCDNToolkit.Constants.Keys.CachePrefix);
+                    Cache.ClearCacheByKeySearch(AzureCDNToolkit.Constants.Keys.CachePrefix);
 
                     LogHelper.Info<CacheEvents>("Azure CDN Toolkit: CDN image path runtime cache cleared by dashboard control request");
                 }
