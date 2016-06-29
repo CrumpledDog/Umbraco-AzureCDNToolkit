@@ -46,7 +46,7 @@ Once installed you will need to edit /Config/imageprocessor/cache.config
 
 It should look like this:
 
-	  <caching currentCache="DiskCache">
+	  <caching currentCache="AzureBlobCache">
 	    <caches>
 	      <cache name="DiskCache" type="ImageProcessor.Web.Caching.DiskCache, ImageProcessor.Web" maxDays="365">
 	        <settings>
