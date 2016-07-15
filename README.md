@@ -2,7 +2,12 @@
 
 ![Azure Logger](build/assets/icon/umbraco-azure-toolkit-256.png)
 
-The AzureCDNToolkit package allows you to fully utilise and integrate the Azure CDN with your Umbraco powered website. There are three file types that should be served from CDN if you have one. 
+The AzureCDNToolkit package allows you to fully utilise and integrate the Azure CDN with your Umbraco powered website using a "Origin Push" approach. 
+
+**To Push or to Pull**
+You can use both a Push or a Pull origin approach to the Azure CDN with Umbraco since the release of the new Azure CDN (AzureEdge),  this package supports only Push origin (storage) currently however it maybe extended to also support Pull in the future.
+
+There are three file types that should be served from CDN if you have one. 
 
 - Assets - css, js & static images used by templates etc..
 - Images managed by Umbraco - cropped or not
