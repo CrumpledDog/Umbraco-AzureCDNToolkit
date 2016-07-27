@@ -7,5 +7,7 @@
         public string WebUrl { get; set; }
         [JsonProperty("cacheurl")]
         public string CacheUrl { get; set; }
+        [JsonProperty("resolved")]
+        public bool Resolved { get; set; }
     }
 }

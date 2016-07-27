@@ -257,6 +257,7 @@
                             if (responseCode.Equals(HttpStatusCode.OK))
                             {
                                 newCachedImage.CacheUrl = response.ResponseUri.AbsoluteUri;
+                                newCachedImage.Resolved = true;
 
                                 Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
                                 fullUrlPath = response.ResponseUri.AbsoluteUri;
@@ -273,6 +274,13 @@
             catch (Exception ex)
             {
                 LogHelper.Error(typeof(UrlHelperRenderExtensions), "Error resolving media url from the CDN", ex);
+
+                // we have tried 5 times and failed so let's cache the normal address
+                var newCachedImage = new CachedImage { WebUrl = cropUrl };
+                newCachedImage.Resolved = false;
+                newCachedImage.CacheUrl = cropUrl;
+                Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
+
                 fullUrlPath = cropUrl;
             }
 
