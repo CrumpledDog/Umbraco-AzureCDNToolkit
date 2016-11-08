@@ -163,20 +163,13 @@
                 var separator = path.InvariantContains("?") ? "&" : "?";
                 string cdnPath;
 
-                if (asset)
+                if (asset && !path.InvariantContains("/media/"))
                 {
-                    cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
+                   cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
                 }
                 else
                 {
                     cdnPath = AzureCdnToolkit.Instance.CdnUrl;
-
-                    // Adjust for custom media container names
-                    if (!AzureCdnToolkit.Instance.MediaContainer.InvariantEquals("media"))
-                    {
-                        srcUri = new Uri(srcUri.AbsoluteUri.Replace("/media/",
-                            string.Format("/{0}/", AzureCdnToolkit.Instance.MediaContainer)));
-                    }
                 }
 
                 // Check if we should add version cachebuster
@@ -204,6 +197,14 @@
                 else
                 {
                     // direct request to CDN, should remove all querystrings except cachebuster
+
+                    // Adjust for custom media container names
+                    if (!AzureCdnToolkit.Instance.MediaContainer.InvariantEquals("media"))
+                    {
+                        srcUri = new Uri(srcUri.AbsoluteUri.Replace("/media/",
+                            string.Format("/{0}/", AzureCdnToolkit.Instance.MediaContainer)));
+                    }
+
                     if (qs["rnd"] != null)
                     {
                         cacheBusterName = "rnd";
