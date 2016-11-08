@@ -66,7 +66,7 @@ With the toolkit enabled, you should now see your media paths change to absolute
 
 e.g.
 
-	<a href="https://azurecdntoolkit.azureedge.net/assets/media/1050/blank.docx?rnd=131070387800000000">Download Word Doc</a>
+	<a href="https://azurecdntoolkit.azureedge.net/media/1050/blank.docx?rnd=131070387800000000">Download Word Doc</a>
 
 You can see that the toolkit has also added that all important cachebuster variable.
 
