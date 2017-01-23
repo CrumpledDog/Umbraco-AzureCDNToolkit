@@ -29,20 +29,23 @@
       <tr>
         <th>WebUrl</th>
         <th>CacheUrl</th>
+        <th>Resolved</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
       <tr ng-show="success && statuses.length == 0" class="warning">
-        <td colspan="3">No cached image paths found</td>
+        <td colspan="4">No cached image paths found</td>
       </tr>
 
       <tr ng-show="waiting && statuses.length == 0" class="warning">
-        <td colspan="3">Please wait, it can take serveral minutes for servers to respond...</td>
+        <td colspan="4">Please wait, it can take serveral minutes for servers to respond...</td>
       </tr>
 
       <tr ng-repeat="(key, image) in statuses" ng:class="rowClass(image)">
         <td>{{ image.weburl }}</td>
         <td>{{ image.cacheurl }}</td>
+        <td>{{ image.resolved }}</td>
         <td><button class="btn btn-danger" ng-click="wipe(selectedserver, image.weburl);"><i class="icon-fire"></i></button></td>
       </tr>
 

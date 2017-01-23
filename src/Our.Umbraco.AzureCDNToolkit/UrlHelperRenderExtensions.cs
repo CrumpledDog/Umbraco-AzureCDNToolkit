@@ -257,8 +257,11 @@
                             var responseCode = response.StatusCode;
                             if (responseCode.Equals(HttpStatusCode.OK))
                             {
-                                newCachedImage.CacheUrl = response.ResponseUri.AbsoluteUri;
-                                newCachedImage.Resolved = true;
+                                var absoluteUri = response.ResponseUri.AbsoluteUri;
+                                newCachedImage.CacheUrl = absoluteUri;
+
+                                // this is to mark URLs returned direct to Blob by ImageProcessor as not fully resolved
+                                newCachedImage.Resolved = absoluteUri.InvariantContains(AzureCdnToolkit.Instance.CdnUrl);
 
                                 Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
                                 fullUrlPath = response.ResponseUri.AbsoluteUri;

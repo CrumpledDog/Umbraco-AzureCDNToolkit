@@ -67,6 +67,9 @@
           };
 
           $scope.rowClass = function (image) {
+            if (image.resolved === false) {
+              return "warning";
+            }
             if (image.weburl === "" || image.cacheurl === "") {
               return "error";
             }
