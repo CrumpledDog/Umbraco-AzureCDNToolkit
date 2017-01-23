@@ -87,7 +87,7 @@ This will enable ImageProcessor.Web to store it's cache files in your storage ac
 
 NuGet Package:
 
-    Install-Package Our.Umbraco.AzureCDNToolkit
+    Install-Package Our.Umbraco.AzureCDNToolkit -Pre
 
 Once installed you will find 6 new keys in web.config
 
