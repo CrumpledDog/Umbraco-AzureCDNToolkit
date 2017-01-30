@@ -8,6 +8,7 @@
     using System.Web.Mvc;
     using System.Linq;
     using System.Net.Http;
+    using System.Web.Configuration;
 
     using global::Umbraco.Core.Models;
     using global::Umbraco.Web.Models;
@@ -246,6 +247,13 @@
                     var newCachedImage = new CachedImage { WebUrl = cropUrl };
 
                     LogHelper.Debug(typeof(UrlHelperRenderExtensions), string.Format("Attempting to resolve: {0}", absoluteCropPath));
+
+                    // if security token has been setup we need to add it here
+                    var securityToken = WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityToken"];
+                    if (!string.IsNullOrEmpty(securityToken))
+                    {
+                        absoluteCropPath = string.Format("{0}&securitytoken={1}", absoluteCropPath, securityToken);
+                    }
 
                     // Retry five times before giving up to account for networking issues
                     TryFiveTimes(() =>
