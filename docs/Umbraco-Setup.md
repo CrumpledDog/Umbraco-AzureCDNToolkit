@@ -59,6 +59,7 @@ It should look like this:
 	          <setting key="CachedBlobContainer" value="cache"/>
 	          <setting key="UseCachedContainerInUrl" value="true"/>
 	          <setting key="CachedCDNRoot" value="[CdnRootUrl]"/>
+	          <setting key="CachedCDNTimeout" value="1000" />
 	          <setting key="SourceStorageAccount" value=""/>
 	          <setting key="SourceBlobContainer" value=""/>
 	          <setting key="StreamCachedImage" value="false"/>
@@ -72,6 +73,7 @@ In the AzureBlobCache section you need to update the following keys:
 1. CachedStorageAccount set to the key and account name from [Step 2 of the Azure Setup](Azure-Setup.md).
 2. CachedBlobContainer change this if you want to (e.g. cloudcache), it will be included in the path of cropped images.
 3. CachedCDNRoot set to the name of your CDN endpoint from [Step 5 of the Azure Setup](Azure-Setup.md).
+4. It's recommended you change the CachedCDNTimeout to 2000
 
 Now change:
 
