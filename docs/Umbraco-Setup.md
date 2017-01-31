@@ -117,7 +117,11 @@ The `MediaContainer` allows a different name for your media container if you wis
 
     <add key="AzureCDNToolkit:MediaContainer" value="media" />
 
-When `SecurityToken` has any value, the CDN toolkit will lock down ImageProcessor so that it will not process requests made directly via querystrings in the url. This is to prevent any sort of ddos attack which could otherwise flood the CDN. The value of this key must be valid in a querystring. e.g "unicornsrock123456789". Please be aware that all requests to ImageProcessor must be executed through the methods of this toolkit when this setting is enabled. This setting was added in **v0.2.0-beta**
+When `SecurityModeEnabled` is enabled, the CDN toolkit will lock down ImageProcessor so that it will not process requests made directly via querystrings in the url. This is to prevent any sort of ddos attack which could otherwise flood the CDN. 
+
+    <add key="AzureCDNToolkit:SecurityModeEnabled" value="true" />
+
+The value of this key must be valid in a querystring. e.g "unicornsrock123456789". Please be aware that all requests to ImageProcessor must be executed through the methods of this toolkit when this setting is enabled. This setting was added in **v0.2.0-beta**
 
     <add key="AzureCDNToolkit:SecurityToken" value="unicornsrock123456789" />
 

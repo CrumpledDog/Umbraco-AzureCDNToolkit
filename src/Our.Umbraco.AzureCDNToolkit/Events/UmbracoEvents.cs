@@ -25,9 +25,9 @@
         private void ImageProcessingModule_ValidatingRequest(object sender, ImageProcessor.Web.Helpers.ValidatingRequestEventArgs args)
         {
             var securityToken = WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityToken"];
-            var useAzureCdnToolkit = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"]);
+            var securityModeEnabled = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityModeEnabled"]);
 
-            if (useAzureCdnToolkit && !string.IsNullOrWhiteSpace(args.QueryString) && !string.IsNullOrEmpty(securityToken))
+            if (securityModeEnabled && !string.IsNullOrWhiteSpace(args.QueryString) && !string.IsNullOrEmpty(securityToken))
             {
                 var queryCollection = HttpUtility.ParseQueryString(args.QueryString);
 
