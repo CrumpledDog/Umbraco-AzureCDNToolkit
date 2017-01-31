@@ -8,6 +8,7 @@
     <add key="AzureCDNToolkit:CdnPackageVersion" value="0.0.1" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:AssetsContainer" value="assets" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:MediaContainer" value="media" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:SecurityModeEnabled" value="false" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:SecurityToken" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
   </appSettings>
 

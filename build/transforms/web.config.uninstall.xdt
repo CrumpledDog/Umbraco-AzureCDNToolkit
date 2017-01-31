@@ -2,13 +2,14 @@
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
 
   <appSettings>
-    <add key="AzureCDNToolkit:UseAzureCdnToolkit" value="true" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:Domain" value="http://[mywebsitedomain.com]" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:CdnUrl" value="https://[mycdn].azureedge.net" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:CdnPackageVersion" value="0.0.1" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:AssetsContainer" value="assets" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:MediaContainer" value="media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
-    <add key="AzureCDNToolkit:SecurityToken" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:UseAzureCdnToolkit" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:Domain" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:CdnUrl" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:CdnPackageVersion" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:AssetsContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:MediaContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:SecurityModeEnabled" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:SecurityToken" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
   </appSettings>
 
 </configuration>
