@@ -94,19 +94,23 @@
                     int nodeId;
                     if (int.TryParse(idAttr.Value, out nodeId))
                     {
-                        var node = UmbracoContext.Current.MediaCache.GetById(nodeId);
+                        var node = UmbracoContext.Current.MediaCache.GetById(nodeId) ??
+                                   UmbracoContext.Current.ContentCache.GetById(nodeId);
 
-                        if (hasQueryString)
+                        if (node != null)
                         {
-                            resolvedSrc =
-                                new UrlHelper().ResolveCdnFallback(node, asset: asset,
-                                    querystring: querystring.ToString(), fallbackImage: src).ToString();
-                        }
-                        else
-                        {
-                            resolvedSrc =
-                                new UrlHelper().ResolveCdnFallback(node, asset: asset, fallbackImage: src)
-                                    .ToString();
+                            if (hasQueryString)
+                            {
+                                resolvedSrc =
+                                    new UrlHelper().ResolveCdnFallback(node, asset: asset,
+                                        querystring: querystring.ToString(), fallbackImage: src).ToString();
+                            }
+                            else
+                            {
+                                resolvedSrc =
+                                    new UrlHelper().ResolveCdnFallback(node, asset: asset, fallbackImage: src)
+                                        .ToString();
+                            }
                         }
                     }
                 }
