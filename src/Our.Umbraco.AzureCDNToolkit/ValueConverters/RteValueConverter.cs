@@ -94,8 +94,7 @@
                     int nodeId;
                     if (int.TryParse(idAttr.Value, out nodeId))
                     {
-                        var node = UmbracoContext.Current.MediaCache.GetById(nodeId) ??
-                                   UmbracoContext.Current.ContentCache.GetById(nodeId);
+                        var node = UmbracoContext.Current.MediaCache.GetById(nodeId);
 
                         if (node != null)
                         {
@@ -121,7 +120,7 @@
                 }
 
                 // If the resolved url is different to the orginal change the src attribute
-                if (resolvedSrc == string.Concat(AzureCdnToolkit.Instance.Domain, src))
+                if (string.IsNullOrWhiteSpace(resolvedSrc) || resolvedSrc == string.Concat(AzureCdnToolkit.Instance.Domain, src))
                 {
                     continue;
                 }
