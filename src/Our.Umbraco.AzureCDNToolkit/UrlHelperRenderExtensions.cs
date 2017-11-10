@@ -312,7 +312,7 @@
                     delegateAction();
                     return;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     if (retry >= 5)
                     {

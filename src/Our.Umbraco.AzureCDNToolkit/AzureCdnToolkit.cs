@@ -61,6 +61,16 @@
         public string MediaContainer { get; set; }
 
         /// <summary>
+        /// Determines wqhether to use Redis Cache or Local Cache
+        /// </summary>
+        public bool UseRedisCache { get; set; }
+
+        /// <summary>
+        /// Determines wqhether to use Redis Cache or Local Cache
+        /// </summary>
+        public string RedisCacheConnectionString { get; set; }
+
+        /// <summary>
         /// Sets all properties
         /// </summary>
 
@@ -69,7 +79,7 @@
         public void Refresh()
         {
 
-            if ((WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"] != null))
+            if (WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"] != null)
             {
                 var useAzureCdnToolkit = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"]);
                 this.UseAzureCdnToolkit = useAzureCdnToolkit;
@@ -84,6 +94,9 @@
             this.CdnUrl = WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnUrl"];
             this.AssetsContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsContainer"] ?? "assets";
             this.MediaContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaContainer"] ?? "media";
+            this.UseRedisCache = WebConfigurationManager.AppSettings["AzureCDNToolkit:UseRedisCache"] != null &&
+                                 bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:UseRedisCache"]);
+            this.RedisCacheConnectionString = WebConfigurationManager.AppSettings["AzureCDNToolkit:RedisCacheConnectionString"];
         }
 
     }
