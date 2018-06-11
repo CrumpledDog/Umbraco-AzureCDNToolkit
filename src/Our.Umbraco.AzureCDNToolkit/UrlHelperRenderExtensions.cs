@@ -220,6 +220,11 @@
 
         internal static IHtmlString UrlToCdnUrl(string cropUrl, bool htmlEncode, string currentDomain = null)
         {
+            if (string.IsNullOrEmpty(cropUrl))
+            {
+                return new HtmlString(string.Empty);
+            }
+
             // If toolkit disabled return orginal string
             if (!AzureCdnToolkit.Instance.UseAzureCdnToolkit)
             {
