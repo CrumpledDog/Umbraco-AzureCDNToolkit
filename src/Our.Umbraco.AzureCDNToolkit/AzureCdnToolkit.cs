@@ -61,6 +61,13 @@
         public string MediaContainer { get; set; }
 
         /// <summary>
+        /// The timeout in milliseconds used when connecting to the cdn
+        /// The default value for the <see cref="System.Net.HttpWebRequest"/> is 100 seconds
+        /// so this is specified as the default value here
+        /// </summary>
+        public int CdnConnectionTimeout { get; set; } = 100 * 1000;
+
+        /// <summary>
         /// Sets all properties
         /// </summary>
 
@@ -68,7 +75,6 @@
 
         public void Refresh()
         {
-
             if ((WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"] != null))
             {
                 var useAzureCdnToolkit = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:UseAzureCdnToolkit"]);
@@ -84,6 +90,14 @@
             this.CdnUrl = WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnUrl"];
             this.AssetsContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsContainer"] ?? "assets";
             this.MediaContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaContainer"] ?? "media";
+
+            if (!string.IsNullOrWhiteSpace(WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnConnectionTimeout"]))
+            {
+                if (int.TryParse(WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnConnectionTimeout"], out int cdnConnectionTimeout))
+                {
+                    CdnConnectionTimeout = cdnConnectionTimeout;
+                }
+            }
         }
 
     }

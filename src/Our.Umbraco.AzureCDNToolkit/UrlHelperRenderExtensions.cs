@@ -264,6 +264,7 @@
                     TryFiveTimes(() =>
                     {
                         var request = (HttpWebRequest)WebRequest.Create(absoluteCropPath);
+                        request.Timeout = AzureCdnToolkit.Instance.CdnConnectionTimeout;
                         request.Method = "HEAD";
                         using (var response = (HttpWebResponse)request.GetResponse())
                         {
