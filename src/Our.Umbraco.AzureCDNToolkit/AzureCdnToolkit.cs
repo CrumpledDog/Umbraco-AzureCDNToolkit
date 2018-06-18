@@ -93,7 +93,8 @@
 
             if (!string.IsNullOrWhiteSpace(WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnConnectionTimeout"]))
             {
-                if (int.TryParse(WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnConnectionTimeout"], out int cdnConnectionTimeout))
+                int cdnConnectionTimeout = 0;
+                if (int.TryParse(WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnConnectionTimeout"], out cdnConnectionTimeout))
                 {
                     CdnConnectionTimeout = cdnConnectionTimeout;
                 }
