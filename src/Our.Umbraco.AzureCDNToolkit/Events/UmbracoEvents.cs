@@ -25,7 +25,12 @@
         private void ImageProcessingModule_ValidatingRequest(object sender, ImageProcessor.Web.Helpers.ValidatingRequestEventArgs args)
         {
             var securityToken = WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityToken"];
-            var securityModeEnabled = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityModeEnabled"]);
+            var securityModeEnabled = false;
+            
+            if (!bool.TryParse(WebConfigurationManager.AppSettings["AzureCDNToolkit:SecurityModeEnabled"], out securityModeEnabled))
+            {
+                securityModeEnabled = false;
+            }
 
             if (securityModeEnabled && !string.IsNullOrWhiteSpace(args.QueryString) && !string.IsNullOrEmpty(securityToken))
             {
