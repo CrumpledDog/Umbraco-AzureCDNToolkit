@@ -82,7 +82,7 @@
 
         public static IHtmlString ResolveCdn(this UrlHelper urlHelper, string path, bool asset = true, bool htmlEncode = true)
         {
-            return ResolveCdn(urlHelper, path, AzureCdnToolkit.Instance.CdnPackageVersion, asset, htmlEncode:htmlEncode);
+            return ResolveCdn(urlHelper, path, AzureCdnToolkit.Instance.CdnPackageVersion, asset, htmlEncode: htmlEncode);
         }
 
         // Special version of the method with fallback image for TinyMce converter
@@ -166,7 +166,7 @@
 
                 if (asset && !path.InvariantContains("/media/"))
                 {
-                   cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
+                    cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
                 }
                 else
                 {
@@ -228,8 +228,11 @@
             // If toolkit disabled return orginal string
             if (!AzureCdnToolkit.Instance.UseAzureCdnToolkit)
             {
+                LogHelper.Info(typeof(UrlHelperRenderExtensions), "AzureCdnToolkit is disabled");
                 return new HtmlString(cropUrl);
             }
+
+            LogHelper.Info(typeof(UrlHelperRenderExtensions), "AzureCdnToolkit is enabled");
 
             if (string.IsNullOrEmpty(currentDomain))
             {
@@ -260,28 +263,61 @@
                         absoluteCropPath = string.Format("{0}&securitytoken={1}", absoluteCropPath, securityToken);
                     }
 
-                    // Retry five times before giving up to account for networking issues
-                    TryFiveTimes(() =>
+                    // lazy load the image
+                    Lazy<string> LazyLoadCdnImage = new Lazy<string>(() =>
                     {
-                        var request = (HttpWebRequest)WebRequest.Create(absoluteCropPath);
-                        request.Method = "HEAD";
-                        using (var response = (HttpWebResponse)request.GetResponse())
+                        string result = null;
+
+                        try
                         {
-                            var responseCode = response.StatusCode;
-                            if (responseCode.Equals(HttpStatusCode.OK))
+
+                            // parse the image through the handler directly
+
+                            // HttpContext.Current
+
+
+
+                            // Retry five times before giving up to account for networking issues
+                            TryFiveTimes(() =>
                             {
-                                var absoluteUri = response.ResponseUri.AbsoluteUri;
-                                newCachedImage.CacheUrl = absoluteUri;
-
-                                // this is to mark URLs returned direct to Blob by ImageProcessor as not fully resolved
-                                newCachedImage.Resolved = absoluteUri.InvariantContains(AzureCdnToolkit.Instance.CdnUrl);
-
-                                Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
-                                fullUrlPath = response.ResponseUri.AbsoluteUri;
-                            }
+                                var request = (HttpWebRequest)WebRequest.Create(absoluteCropPath);
+                                request.Timeout = AzureCdnToolkit.Instance.CdnConnectionTimeout;
+                                request.Method = "HEAD";
+                                using (var response = (HttpWebResponse)request.GetResponse())
+                                {
+                                    var responseCode = response.StatusCode;
+                                    if (responseCode.Equals(HttpStatusCode.OK))
+                                    {
+                                        result = response.ResponseUri.AbsoluteUri;
+                                    }
+                                }
+                            });
                         }
-                    });
+                        catch(Exception ex)
+                        {
+                            LogHelper.Error(typeof(UrlHelperRenderExtensions), "Error resolving media url from the CDN", ex);
 
+                            // we have tried 5 times and failed so let's cache the normal address
+                            newCachedImage = new CachedImage { WebUrl = cropUrl };
+                            newCachedImage.Resolved = false;
+                            newCachedImage.CacheUrl = cropUrl;
+                            Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
+
+                            result = cropUrl;
+                        }
+
+                        newCachedImage.CacheUrl = result;
+                        // this is to mark URLs returned direct to Blob by ImageProcessor as not fully resolved
+                        newCachedImage.Resolved = fullUrlPath.InvariantContains(AzureCdnToolkit.Instance.CdnUrl);
+                        Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
+
+                        return result;
+
+                    },
+                    System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
+
+                    fullUrlPath = LazyLoadCdnImage.Value;
                 }
                 else
                 {
