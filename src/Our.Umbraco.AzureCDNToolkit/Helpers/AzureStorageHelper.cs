@@ -2,30 +2,51 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Our.Umbraco.AzureCDNToolkit.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Configuration;
 
 namespace Our.Umbraco.AzureCDNToolkit.Helpers
 {
+    /// <summary>
+    /// Singleton base helper class for Azure blob storage
+    /// </summary>
     public sealed class AzureStorageHelper
     {
+        /// <summary>
+        /// singleton instance
+        /// </summary>
         private static volatile AzureStorageHelper _instance;
+        /// <summary>
+        /// instantiation helper object
+        /// </summary>
         private static readonly object syncRoot = new Object();
 
+        /// <summary>
+        /// Life time of generated SAS tokens for private blobs
+        /// </summary>
         private readonly string sasValidityMinutesSetting;
+        /// <summary>
+        /// Cloud blob container for media items cache
+        /// </summary>
         private readonly CloudBlobContainer cloudCachedBlobContainerMedia;
+        /// <summary>
+        /// Cloud blob container name
+        /// </summary>
         private readonly string containerNameMedia;
+        /// <summary>
+        /// Internal SAS token cache for media blob
+        /// </summary>
         private readonly SASCache sasCacheMedia = new SASCache();
 
+        #region prepared for future releases
         private readonly bool handleAssets = false;
         private readonly CloudBlobContainer cloudCachedBlobContainerAssets;
         private readonly string containerNameAssets;
         private readonly SASCache sasCacheAssets = new SASCache();
+        #endregion
 
-
+        /// <summary>
+        /// Gets the singleton instance of the <see cref="AzureStorageHelper"/> class
+        /// </summary>
         public static AzureStorageHelper Instance
         {
             get
@@ -43,6 +64,11 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
                 return _instance;
             }
         }
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="AzureStorageHelper"/> class from being created
+        /// (singleton constructor)
+        /// </summary>
         private AzureStorageHelper()
         {
             sasValidityMinutesSetting = WebConfigurationManager.AppSettings["AzureCDNToolkit:SASValidityInMinutes"];
@@ -103,6 +129,12 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
             #endregion
         }
 
+        /// <summary>
+        /// Gets path with addtional SAS token query string if one is necessary
+        /// </summary>
+        /// <param name="path">original path to be extended</param>
+        /// <param name="containerName">[optional] Azure blob container name (default: configured AzureCDNToolkit:MediaCacheContainer)</param>
+        /// <returns>orig. pat with SAS querystring</returns>
         public string GetPathWithSasTokenQuery(string path, string containerName = null)
         {
             bool forAssets = false;
