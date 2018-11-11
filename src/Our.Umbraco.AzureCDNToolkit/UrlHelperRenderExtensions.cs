@@ -19,6 +19,7 @@
     using Newtonsoft.Json;
 
     using Models;
+    using Our.Umbraco.AzureCDNToolkit.Helpers;
 
     public static class UrlHelperRenderExtensions
     {
@@ -82,7 +83,7 @@
 
         public static IHtmlString ResolveCdn(this UrlHelper urlHelper, string path, bool asset = true, bool htmlEncode = true)
         {
-            return ResolveCdn(urlHelper, path, AzureCdnToolkit.Instance.CdnPackageVersion, asset, htmlEncode:htmlEncode);
+            return ResolveCdn(urlHelper, path, AzureCdnToolkit.Instance.CdnPackageVersion, asset, htmlEncode: htmlEncode);
         }
 
         // Special version of the method with fallback image for TinyMce converter
@@ -166,7 +167,7 @@
 
                 if (asset && !path.InvariantContains("/media/"))
                 {
-                   cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
+                    cdnPath = string.Format("{0}/{1}", AzureCdnToolkit.Instance.CdnUrl, AzureCdnToolkit.Instance.AssetsContainer);
                 }
                 else
                 {
@@ -240,7 +241,6 @@
             var cacheKey = string.Format("{0}{1}", cachePrefix, cropUrl);
 
             var absoluteCropPath = string.Format("{0}{1}", currentDomain, cropUrl);
-
             var cachedItem = Cache.GetCacheItem<CachedImage>(cacheKey);
 
             var fullUrlPath = string.Empty;
@@ -263,29 +263,53 @@
                     // Retry five times before giving up to account for networking issues
                     TryFiveTimes(() =>
                     {
+                        string responseUrl = null;
                         var request = (HttpWebRequest)WebRequest.Create(absoluteCropPath);
                         request.Method = "HEAD";
+                        if (AzureCdnToolkit.Instance.usePrivateMedia)
+                        {
+                            try
+                            {
+                                using (var response = (HttpWebResponse)request.GetResponse()) { }
+                            }
+                            catch (System.Net.WebException ex)
+                            {
+                                responseUrl = ex.Response.ResponseUri.AbsoluteUri;
+                                if (responseUrl != absoluteCropPath)
+                                {
+                                    var sasUrl = AzureStorageHelper.Instance.GetPathWithSasTokenQuery(responseUrl);
+                                    request = (HttpWebRequest)WebRequest.Create(sasUrl);
+                                }
+                            }
+                        }
                         using (var response = (HttpWebResponse)request.GetResponse())
                         {
                             var responseCode = response.StatusCode;
                             if (responseCode.Equals(HttpStatusCode.OK))
                             {
                                 var absoluteUri = response.ResponseUri.AbsoluteUri;
-                                newCachedImage.CacheUrl = absoluteUri;
+                                newCachedImage.CacheUrl = responseUrl != null ? responseUrl : absoluteUri;
 
                                 // this is to mark URLs returned direct to Blob by ImageProcessor as not fully resolved
                                 newCachedImage.Resolved = absoluteUri.InvariantContains(AzureCdnToolkit.Instance.CdnUrl);
 
                                 Cache.InsertCacheItem<CachedImage>(cacheKey, () => newCachedImage);
-                                fullUrlPath = response.ResponseUri.AbsoluteUri;
+                                fullUrlPath = absoluteUri;
                             }
                         }
                     });
 
                 }
                 else
-                {
-                    fullUrlPath = cachedItem.CacheUrl;
+                { 
+                    if (AzureCdnToolkit.Instance.usePrivateMedia)
+                    {
+                        fullUrlPath = AzureStorageHelper.Instance.GetPathWithSasTokenQuery(cachedItem.CacheUrl);
+                    }
+                    else
+                    {
+                        fullUrlPath = cachedItem.CacheUrl;
+                    }
                 }
             }
             catch (Exception ex)

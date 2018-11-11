@@ -7,7 +7,12 @@
     <add key="AzureCDNToolkit:CdnUrl" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:CdnPackageVersion" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:AssetsContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:AssetsConnectionString" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:MediaContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:MediaCacheContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:MediaConnectionString" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:UsePrivateMedia" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:SASValidityInMinutes" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:SecurityModeEnabled" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:SecurityToken" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
   </appSettings>

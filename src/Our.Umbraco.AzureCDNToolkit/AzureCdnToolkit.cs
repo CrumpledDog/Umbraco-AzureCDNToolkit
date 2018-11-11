@@ -61,6 +61,11 @@
         public string MediaContainer { get; set; }
 
         /// <summary>
+        /// If equals true, media urls are suffixed by necessary sas token.
+        /// </summary>
+        public bool usePrivateMedia { get; set; }
+
+        /// <summary>
         /// Sets all properties
         /// </summary>
 
@@ -78,12 +83,15 @@
             {
                 this.UseAzureCdnToolkit = true;
             }
-
             this.Domain = WebConfigurationManager.AppSettings["AzureCDNToolkit:Domain"];
             this.CdnPackageVersion = WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnPackageVersion"];
             this.CdnUrl = WebConfigurationManager.AppSettings["AzureCDNToolkit:CdnUrl"];
             this.AssetsContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsContainer"] ?? "assets";
             this.MediaContainer = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaContainer"] ?? "media";
+            if ((WebConfigurationManager.AppSettings["AzureCDNToolkit:UsePrivateMedia"] != null))
+            {
+                this.usePrivateMedia = bool.Parse(WebConfigurationManager.AppSettings["AzureCDNToolkit:UsePrivateMedia"]);
+            }
         }
 
     }

@@ -7,7 +7,12 @@
     <add key="AzureCDNToolkit:CdnUrl" value="https://[mycdn].azureedge.net" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:CdnPackageVersion" value="0.0.1" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:AssetsContainer" value="assets" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:AssetsConnectionString" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:MediaContainer" value="media" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:MediaCacheContainer" value="media" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:MediaConnectionString" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:UsePrivateMedia" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
+    <add key="AzureCDNToolkit:SASValidityInMinutes" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:SecurityModeEnabled" value="false" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
     <add key="AzureCDNToolkit:SecurityToken" value="" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing"/>
   </appSettings>
