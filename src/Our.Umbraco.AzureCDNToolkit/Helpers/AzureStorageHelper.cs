@@ -67,7 +67,8 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
             string connectionStringMedia = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaConnectionString"];
             string connectionStringAssets = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsConnectionString"];
             string blobContainerCacheDurationInHoursSetting = WebConfigurationManager.AppSettings["AzureCDNToolkit:ContainerCacheDurationInHours"];
-            if (int.TryParse(blobContainerCacheDurationInHoursSetting, out int hours))
+            int hours;
+            if (int.TryParse(blobContainerCacheDurationInHoursSetting, out hours))
             {
                 blobContainerCacheDurationInHours = hours;
             }
@@ -88,7 +89,8 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
                 settingsName = $"AzureBlobFileSystem.ConnectionString:{AzureCdnToolkit.Instance.MediaContainer}";
                 connectionString = WebConfigurationManager.AppSettings[settingsName];
             }
-            if (string.IsNullOrEmpty(connectionString) || !CloudStorageAccount.TryParse(connectionString, out CloudStorageAccount acc))
+            CloudStorageAccount acc;
+            if (string.IsNullOrEmpty(connectionString) || !CloudStorageAccount.TryParse(connectionString, out acc))
             {
                 throw new ArgumentException($"Invalid Azure connectionString in appSetting '{settingsName}'");
             }
@@ -202,7 +204,8 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
             if (string.IsNullOrEmpty(sasCache.SASQueryString))
             {
                 // Shared Access Signatures can only be generated under shared key credentials!
-                double.TryParse(sasValidityMinutesSetting, out double sasValidityMinutes);
+                double sasValidityMinutes;
+                double.TryParse(sasValidityMinutesSetting, out sasValidityMinutes);
                 if (sasValidityMinutes <= 10)
                 {
                     sasValidityMinutes = 10;
