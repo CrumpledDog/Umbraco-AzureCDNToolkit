@@ -310,6 +310,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\AzureStorageHelper.cs" />
     <Compile Include="LocalCache.cs" />
+    <Compile Include="Models\AzureStorageCache.cs" />
     <Compile Include="Models\CachedImagesWipe.cs" />
     <Compile Include="Models\CachedImagesResponse.cs" />
     <Compile Include="Models\CachedImagesRequest.cs" />

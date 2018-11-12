@@ -158,6 +158,10 @@
                 if (wasAbsolute &&
                     string.Format("{0}://{1}", srcUri.Scheme, srcUri.DnsSafeHost) != absoluteDomain)
                 {
+                    if (AzureCdnToolkit.Instance.usePrivateMedia)
+                    {
+                        path = AzureStorageHelper.Instance.GetPathWithSasTokenQuery(path);
+                    }
                     // absolute url already and not this site - abort!
                     return new HtmlString(path);
                 }
@@ -214,7 +218,11 @@
                     path = string.Format("{0}{1}?{2}={3}", cdnPath, srcUri.LocalPath, cacheBusterName, cacheBuster);
                 }
             }
-
+            if (AzureCdnToolkit.Instance.usePrivateMedia)
+            {
+                path = AzureStorageHelper.Instance.GetPathWithSasTokenQuery(path);
+            }
+            
             return htmlEncode ? new HtmlString(HttpUtility.HtmlEncode(path)) : new HtmlString(path);
 
         }

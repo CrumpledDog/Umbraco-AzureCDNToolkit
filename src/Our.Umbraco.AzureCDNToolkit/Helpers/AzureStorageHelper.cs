@@ -2,7 +2,11 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Our.Umbraco.AzureCDNToolkit.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Configuration;
+using Umbraco.Core;
+using Umbraco.Core.Logging;
 
 namespace Our.Umbraco.AzureCDNToolkit.Helpers
 {
@@ -11,6 +15,10 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
     /// </summary>
     public sealed class AzureStorageHelper
     {
+        const string MEDIA = "Media";
+        const string ASSETS = "Assets";
+
+        private readonly int blobContainerCacheDurationInHours = 5;
         /// <summary>
         /// singleton instance
         /// </summary>
@@ -19,7 +27,6 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
         /// instantiation helper object
         /// </summary>
         private static readonly object syncRoot = new Object();
-
         /// <summary>
         /// Life time of generated SAS tokens for private blobs
         /// </summary>
@@ -27,23 +34,7 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
         /// <summary>
         /// Cloud blob container for media items cache
         /// </summary>
-        private readonly CloudBlobContainer cloudCachedBlobContainerMedia;
-        /// <summary>
-        /// Cloud blob container name
-        /// </summary>
-        private readonly string containerNameMedia;
-        /// <summary>
-        /// Internal SAS token cache for media blob
-        /// </summary>
-        private readonly SASCache sasCacheMedia = new SASCache();
-
-        #region prepared for future releases
-        private readonly bool handleAssets = false;
-        private readonly CloudBlobContainer cloudCachedBlobContainerAssets;
-        private readonly string containerNameAssets;
-        private readonly SASCache sasCacheAssets = new SASCache();
-        #endregion
-
+        private readonly List<AzureStorageCache> cloudCachedBlobContainers;
         /// <summary>
         /// Gets the singleton instance of the <see cref="AzureStorageHelper"/> class
         /// </summary>
@@ -71,62 +62,78 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
         /// </summary>
         private AzureStorageHelper()
         {
+            cloudCachedBlobContainers = new List<AzureStorageCache>();
             sasValidityMinutesSetting = WebConfigurationManager.AppSettings["AzureCDNToolkit:SASValidityInMinutes"];
             string connectionStringMedia = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaConnectionString"];
             string connectionStringAssets = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsConnectionString"];
-            if (string.IsNullOrEmpty(connectionStringMedia))
+            string blobContainerCacheDurationInHoursSetting = WebConfigurationManager.AppSettings["AzureCDNToolkit:ContainerCacheDurationInHours"];
+            if (int.TryParse(blobContainerCacheDurationInHoursSetting, out int hours))
             {
-                // try getting connection from Web.config (FileSystemProviders section)
-                connectionStringMedia = WebConfigurationManager.AppSettings[$"AzureBlobFileSystem.ConnectionString:{AzureCdnToolkit.Instance.MediaContainer}"];
+                blobContainerCacheDurationInHours = hours;
             }
             if (string.IsNullOrEmpty(connectionStringAssets))
             {
                 connectionStringAssets = connectionStringMedia;
             }
-            if (string.IsNullOrEmpty(connectionStringMedia) || !CloudStorageAccount.TryParse(connectionStringMedia, out CloudStorageAccount acc))
+            SetupAzureStorageCache(connectionStringMedia, MEDIA);
+            SetupAzureStorageCache(connectionStringAssets, ASSETS);
+        }
+
+        private AzureStorageCache SetupAzureStorageCache(string connectionString, string containerNameSetting, string containerName = null, string path = null)
+        {            
+            var settingsName = $"AzureCDNToolkit:{containerNameSetting}ConnectionString";
+            if (string.IsNullOrEmpty(connectionString))
             {
-                throw new ArgumentException("invalid Azure connectionString in appSetting 'AzureCDNToolkit:MediaConnectionString'");
+                // try getting connection from Web.config (FileSystemProviders section)
+                settingsName = $"AzureBlobFileSystem.ConnectionString:{AzureCdnToolkit.Instance.MediaContainer}";
+                connectionString = WebConfigurationManager.AppSettings[settingsName];
+            }
+            if (string.IsNullOrEmpty(connectionString) || !CloudStorageAccount.TryParse(connectionString, out CloudStorageAccount acc))
+            {
+                throw new ArgumentException($"Invalid Azure connectionString in appSetting '{settingsName}'");
             }
             if (!acc.Credentials.IsSharedKey)
             {
-                throw new ArgumentException("Azure connectionString in appSetting 'AzureCDNToolkit:MediaConnectionString' must use Shared Key");
+                throw new ArgumentException($"Azure connectionString in appSetting '{settingsName}' must use Shared Key authentication.");
             }
             var storageUri = new StorageUri(acc.BlobStorageUri.PrimaryUri, acc.BlobStorageUri.SecondaryUri);
             var cloudCachedBlobClient = new CloudBlobClient(storageUri, acc.Credentials);
 
-            containerNameMedia = WebConfigurationManager.AppSettings["AzureCDNToolkit:MediaCacheContainer"];
-            if (string.IsNullOrEmpty(containerNameMedia))
+            if (containerName == null && containerNameSetting != null)
             {
-                throw new ArgumentException("invalid container name in appSetting 'AzureCDNToolkit:MediaCacheContainer'");
+                containerName = WebConfigurationManager.AppSettings[$"AzureCDNToolkit:{containerNameSetting}Container"];
             }
-            containerNameMedia = containerNameMedia.ToLowerInvariant().Trim('/');
-            cloudCachedBlobContainerMedia = cloudCachedBlobClient.GetContainerReference(containerNameMedia);
-
-            // not very likely getting assets from private blobs(?)
-            #region assets
-            if (!handleAssets)
+            if (string.IsNullOrEmpty(containerName))
             {
-                return;
+                throw new ArgumentException("Invalid container name in appSetting 'AzureCDNToolkit:AssetsContainer'");
             }
-            if (!CloudStorageAccount.TryParse(connectionStringAssets, out acc))
+            containerName = containerName.ToLowerInvariant().Trim('/');
+            var container = cloudCachedBlobClient.GetContainerReference(containerName);
+            if (container == null)
             {
-                throw new ArgumentException("invalid Azure connectionString in appSetting 'AzureCDNToolkit:AssetsConnectionString'");
+                LogHelper.Warn<AzureStorageHelper>($"GetPathWithSasTokenQuery() could not find or connect Azure blob container for path: {path}");
+                return null;
             }
-            if (!acc.Credentials.IsSharedKey)
+            var rVal = cloudCachedBlobContainers.FirstOrDefault(c => c.ContainerName.InvariantEquals(containerName));
+            if (rVal != null)
             {
-                throw new ArgumentException("Azure connectionString in appSetting 'AzureCDNToolkit:AssetsConnectionString' must use Shared Key");
+                rVal.Time = DateTime.Now;
+                rVal.Container = container;
             }
-            storageUri = new StorageUri(acc.BlobStorageUri.PrimaryUri, acc.BlobStorageUri.SecondaryUri);
-            cloudCachedBlobClient = new CloudBlobClient(storageUri, acc.Credentials);
-
-            containerNameAssets = WebConfigurationManager.AppSettings["AzureCDNToolkit:AssetsContainer"];
-            if (string.IsNullOrEmpty(containerNameAssets))
+            else
             {
-                throw new ArgumentException("invalid container name in appSetting 'AzureCDNToolkit:AssetsContainer'");
+                rVal = new AzureStorageCache()
+                {
+                    Time = DateTime.Now,
+                    ConnectionString = connectionString,
+                    ContainerName = containerName,
+                    Container = container,
+                    SasCache = new SASCache(),
+                    Permissions = container.GetPermissions()
+                };
+                cloudCachedBlobContainers.Add(rVal);
             }
-            containerNameAssets = containerNameAssets.ToLowerInvariant().Trim('/');
-            cloudCachedBlobContainerAssets = cloudCachedBlobClient.GetContainerReference(containerNameAssets);
-            #endregion
+            return rVal;
         }
 
         /// <summary>
@@ -137,22 +144,49 @@ namespace Our.Umbraco.AzureCDNToolkit.Helpers
         /// <returns>orig. pat with SAS querystring</returns>
         public string GetPathWithSasTokenQuery(string path, string containerName = null)
         {
-            bool forAssets = false;
-            var cloudCachedBlobContainer = cloudCachedBlobContainerMedia;
-            var sasCache = sasCacheMedia;
-            if (handleAssets)
+            Uri uri;
+            if (path.Contains("?"))
             {
+                uri = new Uri(path);
+                if (uri.Query.Contains("&sig="))
+                {
+                    // sas token is already attached
+                    return path;
+                }
+            }
+            AzureStorageCache containerItem = null;
+            if (string.IsNullOrEmpty(containerName))
+            {
+                uri = new Uri(path);
+                if (uri.Segments.Length < 2)
+                {
+                    LogHelper.Warn<AzureStorageHelper>($"GetPathWithSasTokenQuery() could not find Azure blob container for path: {path}");
+                    return path;
+                }
+                containerName = uri.Segments[1].Trim(uri.Segments[0]);
                 if (string.IsNullOrEmpty(containerName))
                 {
-                    containerName = containerNameMedia;
+                    LogHelper.Warn<AzureStorageHelper>($"GetPathWithSasTokenQuery() could not find Azure blob container for path: {path}");
+                    return path;
                 }
-                forAssets = containerName.ToLowerInvariant().Equals(containerNameAssets);
-                cloudCachedBlobContainer = forAssets ? cloudCachedBlobContainerAssets : cloudCachedBlobContainerMedia;
-                sasCache = forAssets ? sasCacheAssets : sasCacheMedia;
             }
+            containerItem = cloudCachedBlobContainers.FirstOrDefault(c => c.ContainerName.Equals(containerName.ToLower()));
+            if (containerItem == null)
+            {
+                containerItem = SetupAzureStorageCache(null, null, containerName, path);
+                if (containerItem == null)
+                {
+                    return path;
+                }
+            }
+            if ((DateTime.Now - containerItem.Time).TotalHours > blobContainerCacheDurationInHours)
+            {
+                containerItem = SetupAzureStorageCache(containerItem.ConnectionString, null, containerItem.ContainerName, path);
+            }
+            var cloudCachedBlobContainer = containerItem.Container;
+            var sasCache = containerItem.SasCache;
 
-            BlobContainerPermissions permissions = cloudCachedBlobContainer.GetPermissions();
-            if (permissions.PublicAccess != BlobContainerPublicAccessType.Off)
+            if (containerItem.Permissions.PublicAccess != BlobContainerPublicAccessType.Off)
             {
                 // nothing is required for public blobs
                 return path;
