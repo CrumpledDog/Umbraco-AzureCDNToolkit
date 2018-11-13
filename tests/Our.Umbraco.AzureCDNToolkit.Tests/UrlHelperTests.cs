@@ -98,7 +98,7 @@
             // You need to start AzureStorageEmulator for this test!
 
             AzureCdnToolkit.Instance.Refresh();
-            var url = "/media/test.jpg";
+            var url = "http://127.0.0.1:10000/media/test.jpg";
             var expectedParams = 6;
 
             var cdnUrl = Helpers.AzureStorageHelper.Instance.GetPathWithSasTokenQuery(url);
