@@ -91,7 +91,7 @@
             var resolvedUrl = new UrlHelper().ResolveCdn(url).ToString();
             Assert.AreEqual(expected, resolvedUrl);
         }
-#if DEBUG
+
         [Test]
         public void TestSasToken()
         {
@@ -128,6 +128,5 @@
             }
             return rVal;
         }
-#endif
     }
 }
