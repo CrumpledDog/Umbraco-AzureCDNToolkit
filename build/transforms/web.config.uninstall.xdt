@@ -10,6 +10,8 @@
     <add key="AzureCDNToolkit:MediaContainer" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:SecurityModeEnabled" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
     <add key="AzureCDNToolkit:SecurityToken" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:UseRedisCache" value="false" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureCDNToolkit:RedisCacheConnectionString" value="" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
   </appSettings>
 
 </configuration>
