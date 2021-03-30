@@ -1,3 +1,6 @@
+# This package is retired and will not be updated for Umbraco v8+ #
+**For Umbraco v8 Azure CDN integration use Slimsy v3** - documentation at https://github.com/Jeavon/Slimsy/blob/dev-v3/Docs/Azure-CDN/index.md
+
 # Umbraco Azure CDN Toolkit #
 
 ![Azure Logger](build/assets/icon/umbraco-azure-toolkit-256.png)
